@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./pages/auth/components/Login";
+import Root from "./pages/Root";
+import Home from "./pages/home/Home";
+import TeamIndex from "./pages/teams/index";
+import Employee from "./pages/teams/Employee";
+import Department from "./pages/teams/Department";
+import Role from "./pages/teams/Role";
+import UsePersistLogin from "./hooks/UsePersistLogin";
+import Profile from "./pages/profile/Profile";
+import Work from "./pages/work/Work";
+import Documents from "./pages/documents/Documents";
+import Attendance from "./pages/attendance/Attendance";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />}></Route>
+          <Route element={<UsePersistLogin />}>
+            <Route element={<Root />}>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/profile" element={<Profile />}></Route>
+              <Route path="/team" element={<TeamIndex />}>
+                <Route index element={<Employee />}></Route>
+                <Route path="employee" element={<Employee />}></Route>
+                <Route path="department" element={<Department />}></Route>
+                <Route path="role" element={<Role />}></Route>
+              </Route>
+              <Route path="/work" element={<Work />}></Route>
+              <Route path="/documents" element={<Documents />}></Route>
+              <Route path="/attendance" element={<Attendance />}></Route>
+            </Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
